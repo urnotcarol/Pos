@@ -37,9 +37,7 @@ function get_total_price(inputs) {
   return total_price;
 }
 
-function printReceipt(inputs) {
-  var added_goods = collect_same_goods(inputs);
-  var total_price = get_total_price(added_goods);
+function show_final_bill(added_goods, total_price) {
   var outputs = "***<没钱赚商店>收据***" + '\n';
 
   added_goods.forEach(function(val) {
@@ -54,4 +52,10 @@ function printReceipt(inputs) {
   outputs +=  "总计：" + total_price.toFixed(2) + "(元)" + '\n';
   outputs +=  "**********************";
   console.log(outputs);
+}
+
+function printReceipt(inputs) {
+  var added_goods = collect_same_goods(inputs);
+  var total_price = get_total_price(added_goods);
+  show_final_bill(added_goods, total_price);
 }
