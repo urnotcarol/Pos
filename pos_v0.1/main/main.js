@@ -1,41 +1,57 @@
-function collect_same_goods(inputs) {
-  for (var i = 0; i < inputs.length; i++) {
-    inputs[i].count = 1;
-  }
-  var result = [];
+function add_count_as_key(inputs) {
 
   inputs.forEach(function(val) {
-    var exist_goods = result.filter(function(item) {
+    val.count = 1;
+  });
+
+  return inputs;
+}
+
+function collect_same_goods(inputs) {
+  inputs = add_count_as_key(inputs);
+  var added_goods = [];
+
+  inputs.forEach(function(val) {
+    var exist_goods = added_goods.filter(function(item) {
       return item.name === val.name;
     });
 
     if(exist_goods.length === 0) {
-      result.push(val);
+      added_goods.push(val);
     }
     else {
       exist_goods[0].count++;
     }
   });
-  return result;
+
+  return added_goods;
+}
+
+function get_total_price(inputs) {
+  var total_price = 0;
+
+  inputs.forEach(function(val) {
+    total_price += val.price * val.count;
+  });
+
+  return total_price;
 }
 
 function printReceipt(inputs) {
   var added_goods = collect_same_goods(inputs);
-  var total_price = 0;
-  for (var i = 0; i < added_goods.length; i++) {
-    total_price += added_goods[i].price * added_goods[i].count;
-  }
-  var outputs = "***<没钱赚商店>收据***" + '\n' +
-  "名称：" + added_goods[0].name +  "，数量：" + added_goods[0].count + added_goods[0].unit +
-  "，单价：" + added_goods[0].price.toFixed(2) + "(元)，小计：" +
-  (added_goods[0].price * added_goods[0].count).toFixed(2) + "(元)" + '\n' +
-  "名称：" + added_goods[1].name +  "，数量：" + added_goods[1].count + added_goods[1].unit +
-  "，单价：" + added_goods[1].price.toFixed(2) + "(元)，小计：" +
-  (added_goods[1].price * added_goods[1].count).toFixed(2) + "(元)" + '\n' +
-  "名称：" + added_goods[2].name +  "，数量：" + added_goods[2].count + added_goods[2].unit +
-  "，单价：" + added_goods[2].price.toFixed(2) + "(元)，小计：" +
-  (added_goods[2].price * added_goods[2].count).toFixed(2) + "(元)" + '\n' +
-  "----------------------" + '\n' + "总计：" + total_price.toFixed(2) + "(元)" + '\n' +
-  "**********************";
+  var total_price = get_total_price(added_goods);
+  var outputs = "***<没钱赚商店>收据***" + '\n';
+
+  added_goods.forEach(function(val) {
+    outputs +=
+    "名称：" + val.name + "，" +
+    "数量：" + val.count + val.unit + "，" +
+    "单价：" + val.price.toFixed(2) + "(元)，" +
+    "小计：" + (val.price * val.count).toFixed(2) + "(元)" + '\n';
+  });
+
+  outputs +=  "----------------------" + '\n';
+  outputs +=  "总计：" + total_price.toFixed(2) + "(元)" + '\n';
+  outputs +=  "**********************";
   console.log(outputs);
 }
