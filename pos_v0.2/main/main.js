@@ -22,6 +22,7 @@ function collect_same_barcodes(inputs) {
       exist_barcodes[0].count++;
     }
   });
+  
   return result;
 }
 
