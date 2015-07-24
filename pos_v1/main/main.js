@@ -2,6 +2,7 @@ function objectify_barcodes(inputs) {
   var BARCODE_START_POS = 0;
   var BARCODE_END_POS = 10;
   var COUNT_POS = 11;
+
   return inputs.map(function(val) {
     var number = 1;
     if (/\-/.test(val)) {
@@ -46,10 +47,12 @@ function get_discount_info(added_barcodes, all_promotions) {
       }
     });
   });
+
   return added_barcodes;
 }
 
 function match_goods_info(allItems, discounted_barcodes) {
+
   allItems.forEach(function(item) {
     discounted_barcodes.forEach(function(val) {
       if (val.barcode === item.barcode) {
@@ -59,6 +62,7 @@ function match_goods_info(allItems, discounted_barcodes) {
       }
     });
   });
+
   return discounted_barcodes;
 }
 
@@ -80,7 +84,6 @@ function show_final_info(final_goods) {
     "单价：" + (val.price).toFixed(2) + "(元)，" +
     "小计：" + (val.price * val.discounted_count).toFixed(2) + "(元)" + '\n';
   });
-
   outputs += "----------------------" + '\n' +
     "挥泪赠送商品：" + '\n';
 
@@ -105,7 +108,6 @@ function printReceipt(inputs) {
   var all_promotions = loadPromotions();
   var barcodes_as_objects = objectify_barcodes(inputs);
   var added_barcodes = collect_same_barcodes(barcodes_as_objects);
-  console.log(added_barcodes);
   var discounted_barcodes = get_discount_info(added_barcodes, all_promotions);
   var final_goods = match_goods_info(allItems, discounted_barcodes);
   show_final_info(final_goods);
