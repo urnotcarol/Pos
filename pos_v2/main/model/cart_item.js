@@ -1,35 +1,34 @@
+var allItems = loadAllItems();
+var promotionInfo = loadPromotions();
+
 function CartItem(barcode, count) {
   this.barcode = barcode;
   this.count = count;
-  this.discountedCount = count;
-  this.attachPromotionInfo();
-  this.attachpProps();
+  this.attachOtherProps();
 }
 
-CartItem.prototype.attachPromotionInfo = function() {
-  thisBarcode = this.barcode;
-  thisCount = this.count;
-
-  promotionInfo[0].barcodes.forEach(function(val) {
-    if (val === thisBarcode) {
-      thisDiscountedcount = thisCount - (thisCount - (thisCount % 3)) / 3;
+CartItem.prototype.attachOtherProps = function() {
+  var that = this;
+  allItems.forEach(function(val) {
+    if (val.barcode === that.barcode) {
+      that.name = val.name;
+      that.price = val.price;
+      that.unit = val.unit;
     }
   });
-
-  this.discountedCount = thisDiscountedcount;
 };
 
-CartItem.prototype.attachpProps = function() {
-
-  allItems.forEach(function(val) {
-    if (val.barcode === thisBarcode) {
-      thisName = val.name;
-      thisPrice = val.price;
+CartItem.prototype.getSubTotal = function() {
+  var that = this;
+  that.discountedCount = this.count;
+  promotionInfo[0].barcodes.forEach(function(val) {
+    if (val === that.barcode) {
+      that.discountedCount = that.count - (that.count - (that.count % 3)) / 3;
     }
   });
+  return this.price * this.discountedCount;
+};
 
-  this.name = thisName;
-  this.price = thisPrice;
-  this.subTotal = this.price * this.discountedCount;
-  this.savedMoney = this.price * (this.count - this.discountedCount);
+CartItem.prototype.getSubSavedMoney = function() {
+  return this.price * (this.count - this.discountedCount);
 };

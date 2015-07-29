@@ -1,35 +1,36 @@
-function Cart(collectedBarcodes) {
-  this.boughtBarcodes = collectedBarcodes;
+function Cart() {
   this.boughtItems = [];
-  this.totalPrice = 0;
-  this.addItems();
-  this.getTotalPrice();
-  this.getSavedMoney();
 }
 
-Cart.prototype.addItems = function(boughtBarcodes) {
-  var tempBoughtItems = this.boughtItems;
-
-  this.boughtBarcodes.forEach(function(val) {
-    var newItem = new CartItem(val.barcode, val.count);
-    tempBoughtItems.push(newItem);
+Cart.prototype.addItem = function(objectifiedBarcode) {
+  var existBarcode = this.boughtItems.filter(function(item) {
+    return item.barcode === objectifiedBarcode.barcode;
   });
+
+  if (existBarcode.length === 0) {
+    this.boughtItems.push(new CartItem(objectifiedBarcode.barcode, objectifiedBarcode.count));
+  }
+  else {
+    this.boughtItems.forEach(function(item) {
+      if (item.barcode === objectifiedBarcode.barcode) {
+        item.count += objectifiedBarcode.count;
+      }
+    });
+  }
 };
 
 Cart.prototype.getTotalPrice = function() {
-  var tempTotalPrice= 0;
-
+  var totalPrice = 0;
   this.boughtItems.forEach(function(item) {
-    tempTotalPrice += item.subTotal;
+    totalPrice += item.getSubTotal();
   });
-  this.totalPrice = tempTotalPrice;
+  return totalPrice;
 };
 
 Cart.prototype.getSavedMoney = function() {
-  var tempSavedMoney = 0;
-
+  var savedMoney = 0;
   this.boughtItems.forEach(function(item) {
-    tempSavedMoney += item.savedMoney;
+    savedMoney += item.getSubSavedMoney();
   });
-  this.allSavedMoney = tempSavedMoney;
+  return savedMoney;
 };
