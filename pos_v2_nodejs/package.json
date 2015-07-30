@@ -1,0 +1,17 @@
+{
+  "name": "pos_v2_nodejs",
+  "version": "1.0.0",
+  "description": "POS收银机 版本：v2",
+  "main": "test.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jasmine": "^2.3.1"
+  }
+}
