@@ -1,4 +1,4 @@
-var Scanner = require('../../main/model/scanner.js');
+var Scanner = require('../main/model/scanner.js');
 
 describe("Scanner", function() {
   describe("scanTag", function() {

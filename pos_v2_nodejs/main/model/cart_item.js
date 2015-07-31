@@ -5,6 +5,7 @@ var allItems = loadAllItems();
 var promotionInfo = loadPromotions();
 
 function discount(barcode, count) {
+  var discountedCount = count;
   promotionInfo[0].barcodes.forEach(function(val) {
     if (val === barcode) {
       discountedCount = count - (count - (count % 3)) / 3;
@@ -31,13 +32,11 @@ CartItem.prototype.attachOtherProps = function() {
 };
 
 CartItem.prototype.getSubTotal = function() {
-  this.discountedCount = this.count;
   this.discountedCount = discount(this.barcode, this.count);
   return this.price * this.discountedCount;
 };
 
 CartItem.prototype.getSubSavedMoney = function() {
-  this.discountedCount = this.count;
   this.discountedCount = discount(this.barcode, this.count);
   return this.price * (this.count - this.discountedCount);
 };

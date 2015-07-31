@@ -1,4 +1,4 @@
-var CartItem = require('../../main/model/cart_item.js');
+var CartItem = require('../main/model/cart_item.js');
 
 describe("CartItem", function() {
   var theCartItem = new CartItem("ITEM000005", 6);
@@ -26,5 +26,4 @@ describe("CartItem", function() {
       expect(result).toEqual(9);
     });
   });
-
 });

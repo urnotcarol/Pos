@@ -1,0 +1,9 @@
+{
+  "launchers":{
+    "Jasmine":{
+      "command":"npm test"
+    }
+  },
+  "launch_in_dev": ["Jasmine"],
+  "src_files":["spec/**/*-spec.js","main/**/*.js"]
+}
